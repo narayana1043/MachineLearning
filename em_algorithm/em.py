@@ -54,10 +54,11 @@ for k in range(2, 3):
             sd[k_i] = np.sqrt(np.sum(np.multiply(p_ij[k_i], np.square(x - mu[k_i])))/sum_p_ij)
             cp[k_i] = sum_p_ij/n
         
+        # TODO: Verficiation needed::
+        # log-likelihood calculation
         for index in range(1, len(p_ij)):
             p_ij += p_ij[index]
 
-        # log-likelihood calculation
         ll = np.sum(np.log(p_ij))
         print ll
         
