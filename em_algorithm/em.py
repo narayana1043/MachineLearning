@@ -45,6 +45,13 @@ for k in range(2, 3):
             
         cp = p_tot/sum(p_tot)
         
+        for index in range(1, len(p_ij)):
+            p_ij += p_ij[index]
+        
+        # log-likelihood
+        ll = np.sum(np.log(p_ij))
+        print ll
+        
     print cp
     print mu, sd
         
