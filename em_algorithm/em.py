@@ -26,7 +26,7 @@ for k in range(2, 3):
     # mu = [random.random() for i in range(k)]
     mu = [-0.1, 0.1]
     sd = [1 for i in range(k)]
-    cp = [1.0/k for i in range(k)]
+    cp = [1.0/k] * k
     n = np.shape(x)[0]
     
     # i = class index
