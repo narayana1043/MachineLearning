@@ -23,10 +23,11 @@ for k in range(2, 3):
     # k = number of centers
     # cp = class probability
     random.seed(12345)
-    mu = [random.random() for i in range(k)]
-    mu = [-1, 1]
+    # mu = [random.random() for i in range(k)]
+    mu = [-0.1, 0.1]
     sd = [1 for i in range(k)]
     cp = [1.0/k for i in range(k)]
+    n = np.shape(x)[0]
     
     # i = class index
     # j = data point index
@@ -34,21 +35,29 @@ for k in range(2, 3):
         
         # probability of class i given jth data point
         p_ij = []
-        p_tot = []
         
+        # exceptation calculation
         for k_i in range(k):
             pdf = ss.norm(mu[k_i], sd[k_i]).pdf(x)
-            p_ij.append(np.multiply(pdf, cp[i]))
-            p_tot.append(np.sum(p_ij[k_i]))
-            mu[k_i] = np.sum(np.multiply(p_ij[k_i], x))/p_tot[k_i]
-            sd[k_i] = np.sqrt(np.sum(np.multiply(p_ij[k_i], np.square(x - mu[k_i])))/p_tot[k_i])
-            
-        cp = p_tot/sum(p_tot)
+            p_ij.append(np.multiply(pdf, cp[k_i]))
+        
+        # maximization calculation
+        p_tot = p_ij[0]
+        for k_i in range(1,k):
+            p_tot = np.add(p_tot, p_ij[k_i])
+        
+        p_ij = [p_ij[k_i]/p_tot for k_i in range(len(p_ij))]
+
+        for k_i in range(k):
+            sum_p_ij = np.sum(p_ij[k_i])
+            mu[k_i] = np.sum(np.multiply(p_ij[k_i], x))/sum_p_ij
+            sd[k_i] = np.sqrt(np.sum(np.multiply(p_ij[k_i], np.square(x - mu[k_i])))/sum_p_ij)
+            cp[k_i] = sum_p_ij/n
         
         for index in range(1, len(p_ij)):
             p_ij += p_ij[index]
-        
-        # log-likelihood
+
+        # log-likelihood calculation
         ll = np.sum(np.log(p_ij))
         print ll
         
