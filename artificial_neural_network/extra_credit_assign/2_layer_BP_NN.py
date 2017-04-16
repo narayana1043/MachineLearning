@@ -300,6 +300,7 @@ params = {
 NN = NeuralNet(parameters=params)
 NN.learn(Xtrain=x, ytrain=y)
 ytest = NN.predict(Xtest=x)
+
 y= [0,1,1,0,1,0,0,1,1,0,0,1,0,1,1,0]
 print np.array(y)
 print ytest
